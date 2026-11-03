@@ -1,0 +1,25 @@
+# Free Render web service + external free PostgreSQL (Neon recommended).
+# No persistent disk is attached: hosted data MUST use BRAIN_SOURCE_DATABASE_URL.
+services:
+  - type: web
+    name: brain-source
+    runtime: docker
+    plan: free
+    region: frankfurt
+    dockerfilePath: ./backend/Dockerfile
+    dockerContext: .
+    healthCheckPath: /api/health
+    autoDeploy: true
+    envVars:
+      - key: BRAIN_SOURCE_ADMIN_PASSWORD
+        sync: false
+      - key: BRAIN_SOURCE_SECRET_KEY
+        generateValue: true
+      - key: BRAIN_SOURCE_DATABASE_URL
+        sync: false
+      - key: BRAIN_SOURCE_COOKIE_SECURE
+        value: "1"
+      - key: BRAIN_SOURCE_SHOW_API_DOCS
+        value: "0"
+      - key: BRAIN_SOURCE_SESSION_HOURS
+        value: "12"
